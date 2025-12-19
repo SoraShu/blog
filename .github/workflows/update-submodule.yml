@@ -1,0 +1,14 @@
+name: Update Submodule
+
+on:
+  workflow_dispatch:
+  repository_dispatch:
+    types: [submodule-update]
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: runsascoded/update-submodules@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
