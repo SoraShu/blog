@@ -16,11 +16,12 @@ export default defineConfig({
     platformProxy: {
       enabled: true,
     },
+    imageService: 'cloudflare',
   }),
   vite: {
     plugins: [tailwindcss()],
     ssr: {
-      external: ['node:fs', 'node:path'],
+      external: ['node:fs', 'node:path', 'node:url', 'node:crypto', 'node:fs/promises'],
     },
   },
   integrations: [
