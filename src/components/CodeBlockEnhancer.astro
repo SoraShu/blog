@@ -1,0 +1,194 @@
+---
+// CodeBlock and Table enhancer component
+// Uses shadcn Card styles for code block wrapper
+---
+
+<script>
+  function initCodeBlocks() {
+    // Target Astro's shiki-generated code blocks
+    const codeBlocks = document.querySelectorAll('.prose pre.astro-code');
+    
+    codeBlocks.forEach((pre) => {
+      // Skip if already wrapped
+      if (pre.parentElement?.classList.contains('code-block-card')) return;
+      
+      // Get language from data-language attribute (set by Astro/Shiki)
+      const lang = pre.getAttribute('data-language') || 'text';
+      
+      // Language display names
+      const langNames: Record<string, string> = {
+        js: 'JavaScript',
+        javascript: 'JavaScript',
+        ts: 'TypeScript',
+        typescript: 'TypeScript',
+        jsx: 'JSX',
+        tsx: 'TSX',
+        py: 'Python',
+        python: 'Python',
+        rb: 'Ruby',
+        ruby: 'Ruby',
+        go: 'Go',
+        rust: 'Rust',
+        rs: 'Rust',
+        java: 'Java',
+        cpp: 'C++',
+        c: 'C',
+        cs: 'C#',
+        csharp: 'C#',
+        php: 'PHP',
+        swift: 'Swift',
+        kotlin: 'Kotlin',
+        sql: 'SQL',
+        html: 'HTML',
+        css: 'CSS',
+        scss: 'SCSS',
+        sass: 'Sass',
+        less: 'Less',
+        json: 'JSON',
+        yaml: 'YAML',
+        yml: 'YAML',
+        xml: 'XML',
+        md: 'Markdown',
+        markdown: 'Markdown',
+        mdx: 'MDX',
+        bash: 'Bash',
+        sh: 'Shell',
+        shell: 'Shell',
+        zsh: 'Zsh',
+        fish: 'Fish',
+        powershell: 'PowerShell',
+        ps1: 'PowerShell',
+        dockerfile: 'Dockerfile',
+        docker: 'Docker',
+        graphql: 'GraphQL',
+        vue: 'Vue',
+        svelte: 'Svelte',
+        astro: 'Astro',
+        text: 'Plain Text',
+        txt: 'Plain Text',
+      };
+      
+      const displayLang = langNames[lang.toLowerCase()] || lang.toUpperCase();
+      
+      // Create Card wrapper (using shadcn Card classes)
+      const card = document.createElement('div');
+      card.className = 'code-block-card bg-card text-card-foreground flex flex-col rounded-xl border shadow-sm overflow-hidden not-prose my-6';
+      
+      // Create CardHeader
+      const header = document.createElement('div');
+      header.className = 'flex items-center justify-between px-4 py-3 border-b bg-muted/50';
+      
+      // Language label
+      const langLabel = document.createElement('span');
+      langLabel.className = 'text-sm font-medium text-muted-foreground';
+      langLabel.textContent = displayLang;
+      
+      // Copy button with icon
+      const copyBtn = document.createElement('button');
+      copyBtn.className = 'inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors px-2 py-1 rounded-md hover:bg-accent';
+      copyBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><span>复制</span>`;
+      
+      copyBtn.addEventListener('click', async () => {
+        const code = pre.querySelector('code');
+        const text = code?.textContent || pre.textContent || '';
+        try {
+          await navigator.clipboard.writeText(text);
+          copyBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>已复制</span>`;
+          copyBtn.classList.add('text-green-500');
+          setTimeout(() => {
+            copyBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><span>复制</span>`;
+            copyBtn.classList.remove('text-green-500');
+          }, 2000);
+        } catch (err) {
+          copyBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" x2="9" y1="9" y2="15"/><line x1="9" x2="15" y1="9" y2="15"/></svg><span>失败</span>`;
+          setTimeout(() => {
+            copyBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><span>复制</span>`;
+          }, 2000);
+        }
+      });
+      
+      header.appendChild(langLabel);
+      header.appendChild(copyBtn);
+      
+      // Create CardContent wrapper for pre
+      const content = document.createElement('div');
+      content.className = 'overflow-x-auto';
+      
+      // Style the pre element and add line numbers class
+      pre.classList.add('!m-0', '!rounded-none', '!border-0', 'code-with-line-numbers');
+      
+      // Add line numbers to each line
+      const code = pre.querySelector('code');
+      if (code) {
+        const lines = code.querySelectorAll('.line');
+        lines.forEach((line, index) => {
+          line.setAttribute('data-line-number', String(index + 1));
+        });
+      }
+      
+      // Wrap the pre element
+      pre.parentNode?.insertBefore(card, pre);
+      card.appendChild(header);
+      content.appendChild(pre);
+      card.appendChild(content);
+    });
+  }
+
+  function initTables() {
+    // Wrap tables for better styling and overflow handling
+    const tables = document.querySelectorAll('.prose table');
+    
+    tables.forEach((table) => {
+      // Skip if already wrapped
+      if (table.parentElement?.classList.contains('table-wrapper')) return;
+      
+      // Create wrapper with Card styles
+      const wrapper = document.createElement('div');
+      wrapper.className = 'table-wrapper bg-card rounded-xl border shadow-sm overflow-hidden my-6 not-prose';
+      
+      // Wrap the table
+      table.parentNode?.insertBefore(wrapper, table);
+      wrapper.appendChild(table);
+      
+      // Add table styles
+      table.classList.add('w-full');
+    });
+  }
+
+  // Run on page load
+  initCodeBlocks();
+  initTables();
+  
+  // Re-run on view transitions (if using)
+  document.addEventListener('astro:page-load', () => {
+    initCodeBlocks();
+    initTables();
+  });
+</script>
+
+<style is:global>
+  /* Code block line numbers */
+  pre.code-with-line-numbers code {
+    counter-reset: line;
+  }
+  
+  pre.code-with-line-numbers code .line {
+    display: inline-block;
+    width: 100%;
+  }
+  
+  pre.code-with-line-numbers code .line::before {
+    content: attr(data-line-number);
+    display: inline-block;
+    width: 1.5rem;
+    margin-right: 0.75rem;
+    padding-right: 0.5rem;
+    text-align: right;
+    color: hsl(var(--muted-foreground) / 0.5);
+    border-right: 1px solid hsl(var(--border));
+    user-select: none;
+    position: sticky;
+    left: 0;
+    background: inherit;
+  }
+</style>

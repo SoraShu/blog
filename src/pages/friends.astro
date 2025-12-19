@@ -1,0 +1,51 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { FriendCard } from "@/components/FriendCard";
+import { getCollection } from "astro:content";
+import fs from "node:fs";
+import path from "node:path";
+import MarkdownIt from "markdown-it";
+
+const friends = await getCollection("friends");
+
+// 读取并渲染 friends.md（交换友链说明）
+const friendsInfoPath = path.resolve("./content/friends.md");
+const friendsInfoContent = fs.readFileSync(friendsInfoPath, "utf-8");
+
+// 移除 frontmatter
+const contentWithoutFrontmatter = friendsInfoContent.replace(/^---[\s\S]*?---\n*/, "");
+
+// 渲染 Markdown
+const md = new MarkdownIt({
+  html: true,
+  linkify: true,
+});
+const htmlContent = md.render(contentWithoutFrontmatter);
+---
+
+<BaseLayout title="友链 Friends" description="友情链接 Friend links">
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-4xl font-bold mb-4 text-center">友链 Friends</h1>
+    <p class="text-center text-muted-foreground mb-8">
+      我的朋友们 My friends
+    </p>
+
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        friends.map((friend) => (
+          <FriendCard
+            client:load
+            name={friend.data.name}
+            url={friend.data.url}
+            avatar={friend.data.avatar}
+            description={friend.data.description}
+          />
+        ))
+      }
+    </div>
+
+    <div class="mt-12 p-6 bg-muted rounded-lg prose dark:prose-invert max-w-none">
+      <Fragment set:html={htmlContent} />
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,65 @@
+---
+/**
+ * 文章版权信息组件
+ * 显示在每篇博文底部
+ */
+import { SITE_AUTHOR, SITE_URL } from "@/config/site.config";
+import { Separator } from "@/components/ui/separator";
+
+interface Props {
+  title: string;
+  author?: string;
+  pubDate: Date;
+}
+
+const { title, author = SITE_AUTHOR, pubDate } = Astro.props;
+const postUrl = new URL(Astro.url.pathname, SITE_URL).href;
+const year = pubDate.getFullYear();
+---
+
+<Separator className="my-8" />
+
+<aside class="bg-muted/50 rounded-lg p-6 text-sm">
+  <h4 class="font-semibold mb-3 text-base">📜 版权声明 Copyright Notice</h4>
+  
+  <dl class="space-y-2 text-muted-foreground">
+    <div class="flex flex-wrap gap-x-2">
+      <dt class="font-medium text-foreground">文章标题 Title:</dt>
+      <dd>{title}</dd>
+    </div>
+    
+    <div class="flex flex-wrap gap-x-2">
+      <dt class="font-medium text-foreground">文章作者 Author:</dt>
+      <dd>{author}</dd>
+    </div>
+    
+    <div class="flex flex-wrap gap-x-2">
+      <dt class="font-medium text-foreground">文章链接 Link:</dt>
+      <dd>
+        <a href={postUrl} class="text-primary hover:underline break-all">
+          {postUrl}
+        </a>
+      </dd>
+    </div>
+    
+    <div class="flex flex-wrap gap-x-2">
+      <dt class="font-medium text-foreground">版权声明 License:</dt>
+      <dd>
+        本文采用 
+        <a 
+          href="https://creativecommons.org/licenses/by-nc-sa/4.0/" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="text-primary hover:underline"
+        >
+          CC BY-NC-SA 4.0
+        </a> 
+        许可协议。转载请注明出处。
+      </dd>
+    </div>
+  </dl>
+  
+  <p class="mt-4 text-xs text-muted-foreground/70">
+    © {year} {author}. Some rights reserved.
+  </p>
+</aside>

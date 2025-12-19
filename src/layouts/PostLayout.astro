@@ -1,0 +1,100 @@
+---
+import type { MarkdownHeading } from "astro";
+import BaseLayout from "./BaseLayout.astro";
+import ArticleSchema from "@/components/ArticleSchema.astro";
+import CodeBlockEnhancer from "@/components/CodeBlockEnhancer.astro";
+import TableOfContents from "@/components/TableOfContents.astro";
+import PostCopyright from "@/components/PostCopyright.astro";
+import FloatingActions from "@/components/FloatingActions.astro";
+import { Badge } from "@/components/ui/badge";
+import { formatDate } from "@/lib/utils";
+import { SITE_AUTHOR } from "@/config/site.config";
+
+interface Props {
+  frontmatter: {
+    title: string;
+    description: string;
+    pubDate: Date;
+    updatedDate?: Date;
+    tags?: string[];
+    author?: string;
+    cover?: string;
+  };
+  headings: MarkdownHeading[];
+}
+
+const { frontmatter, headings = [] } = Astro.props;
+const {
+  title,
+  description,
+  pubDate,
+  updatedDate,
+  tags = [],
+  author = SITE_AUTHOR,
+  cover,
+} = frontmatter;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  image={cover}
+  article={{
+    publishedTime: pubDate.toISOString(),
+    modifiedTime: updatedDate?.toISOString(),
+    author,
+    tags,
+  }}
+>
+  <ArticleSchema
+    title={title}
+    description={description}
+    publishDate={pubDate}
+    modifiedDate={updatedDate}
+    author={author}
+    image={cover}
+  />
+
+  <article class="max-w-3xl mx-auto">
+    <header class="mb-8">
+      <h1 class="text-4xl font-bold mb-4">{title}</h1>
+      <div class="flex flex-wrap items-center gap-4 text-muted-foreground">
+        <time datetime={pubDate.toISOString()}>
+          📅 {formatDate(pubDate)}
+        </time>
+        {
+          updatedDate && (
+            <span>
+              (更新于 {formatDate(updatedDate)})
+            </span>
+          )
+        }
+        <span>✍️ {author}</span>
+      </div>
+      {
+        tags.length > 0 && (
+          <div class="flex flex-wrap gap-2 mt-4">
+            {tags.map((tag) => (
+              <a href={`/tags/${tag}`}>
+                <Badge variant="secondary">{tag}</Badge>
+              </a>
+            ))}
+          </div>
+        )
+      }
+    </header>
+
+    {cover && <img src={cover} alt={title} class="w-full rounded-lg mb-8" />}
+
+    <div class="prose">
+      <slot />
+    </div>
+    
+    <CodeBlockEnhancer />
+    
+    <PostCopyright title={title} author={author} pubDate={pubDate} />
+  </article>
+  
+  <TableOfContents headings={headings} />
+  <FloatingActions />
+</BaseLayout>

@@ -1,0 +1,34 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { Card, CardContent } from "@/components/ui/card";
+import { CONTENT_ABOUT_PATH } from "@/config/site.config";
+import fs from "node:fs";
+import path from "node:path";
+import MarkdownIt from "markdown-it";
+
+// 读取并渲染 about.md
+const aboutPath = path.resolve(CONTENT_ABOUT_PATH);
+const aboutContent = fs.readFileSync(aboutPath, "utf-8");
+
+// 移除 frontmatter
+const contentWithoutFrontmatter = aboutContent.replace(/^---[\s\S]*?---\n*/, "");
+
+// 渲染 Markdown
+const md = new MarkdownIt({
+  html: true,
+  linkify: true,
+});
+const htmlContent = md.render(contentWithoutFrontmatter);
+---
+
+<BaseLayout title="关于 About" description="关于我和这个博客 About me and this blog">
+  <div class="max-w-3xl mx-auto">
+    <h1 class="text-4xl font-bold mb-8 text-center">关于 About</h1>
+
+    <Card>
+      <CardContent className="prose dark:prose-invert p-8">
+        <Fragment set:html={htmlContent} />
+      </CardContent>
+    </Card>
+  </div>
+</BaseLayout>

@@ -1,0 +1,65 @@
+---
+import { SEO as AstroSEO } from "astro-seo";
+import { SITE_TITLE, SITE_DESCRIPTION, SITE_URL, SITE_LOCALE } from "@/config/site.config";
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  article?: {
+    publishedTime: string;
+    modifiedTime?: string;
+    author: string;
+    tags?: string[];
+  };
+}
+
+const { title, description = SITE_DESCRIPTION, image, article } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || SITE_URL);
+const socialImage = image || "/og-image.png";
+const fullTitle = `${title} | ${SITE_TITLE}`;
+---
+
+<AstroSEO
+  title={fullTitle}
+  description={description}
+  canonical={canonicalURL.href}
+  openGraph={{
+    basic: {
+      title: fullTitle,
+      type: article ? "article" : "website",
+      image: new URL(socialImage, Astro.site || SITE_URL).href,
+      url: canonicalURL.href,
+    },
+    optional: {
+      description: description,
+      siteName: SITE_TITLE,
+      locale: SITE_LOCALE.replace("-", "_"),
+    },
+    article: article
+      ? {
+          publishedTime: article.publishedTime,
+          modifiedTime: article.modifiedTime,
+          authors: [article.author],
+          tags: article.tags,
+        }
+      : undefined,
+  }}
+  twitter={{
+    card: "summary_large_image",
+    title: fullTitle,
+    description: description,
+    image: new URL(socialImage, Astro.site || SITE_URL).href,
+  }}
+  extend={{
+    link: [
+      { rel: "sitemap", href: "/sitemap-index.xml" },
+      {
+        rel: "alternate",
+        type: "application/rss+xml",
+        title: "RSS Feed",
+        href: "/rss.xml",
+      },
+    ],
+  }}
+/>

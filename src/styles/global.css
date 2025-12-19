@@ -1,0 +1,436 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: "Inter", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", "Sarasa Mono SC", "Consolas", monospace;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply transition-colors duration-300;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased transition-colors duration-300;
+  }
+  code, pre {
+    @apply font-mono;
+  }
+  /* 主题切换时的平滑过渡 */
+  header, footer, main, nav, article, section, aside, 
+  .card, [class*="bg-"], [class*="text-"], [class*="border-"] {
+    @apply transition-colors duration-300;
+  }
+}
+
+/* Prose styles for blog content */
+.prose {
+  @apply max-w-none;
+}
+
+.prose h1 {
+  @apply text-3xl font-bold mt-8 mb-4;
+}
+
+.prose h2 {
+  @apply text-2xl font-semibold mt-6 mb-3;
+}
+
+.prose h3 {
+  @apply text-xl font-semibold mt-4 mb-2;
+}
+
+.prose p {
+  @apply my-4 leading-relaxed;
+}
+
+.prose a {
+  @apply text-primary underline underline-offset-4 hover:text-primary/80;
+}
+
+.prose ul, .prose ol {
+  @apply my-4 pl-6;
+}
+
+.prose ul {
+  @apply list-disc;
+}
+
+.prose ol {
+  @apply list-decimal;
+}
+
+.prose li {
+  @apply my-1;
+}
+
+/* ==================== Blockquote Styles ==================== */
+.prose blockquote {
+  @apply relative my-6 pl-6 pr-4 py-4;
+  @apply border-l-4 border-primary/60;
+  @apply bg-muted/30 rounded-r-lg;
+  @apply text-muted-foreground italic;
+  @apply transition-all duration-300;
+}
+
+.prose blockquote:hover {
+  @apply bg-muted/50 border-primary/80;
+}
+
+.prose blockquote::before {
+  content: '"';
+  @apply absolute -left-1 -top-2 text-5xl text-primary/20 font-serif leading-none;
+}
+
+.prose blockquote p {
+  @apply my-0;
+}
+
+.prose blockquote p:not(:last-child) {
+  @apply mb-2;
+}
+
+/* Nested blockquotes */
+.prose blockquote blockquote {
+  @apply mt-4 border-l-2 border-primary/40;
+}
+
+/* ==================== Code Block Styles ==================== */
+.prose .code-block {
+  @apply relative my-6 rounded-xl overflow-hidden;
+  @apply border border-border shadow-sm;
+  @apply transition-shadow duration-300;
+}
+
+.prose .code-block:hover {
+  @apply shadow-md;
+}
+
+.prose .code-block-header {
+  @apply flex items-center justify-between px-4 py-2.5;
+  @apply bg-muted/60 backdrop-blur-sm;
+  @apply border-b border-border/50;
+}
+
+.prose .code-block-lang {
+  @apply text-muted-foreground font-mono text-xs font-medium tracking-wider uppercase;
+  @apply flex items-center gap-2;
+}
+
+.prose .code-block-lang::before {
+  content: "";
+  @apply w-2 h-2 rounded-full bg-primary/60;
+}
+
+.prose .code-block-copy {
+  @apply px-3 py-1.5 text-xs font-medium;
+  @apply bg-background/80 hover:bg-background;
+  @apply border border-border/50 rounded-md;
+  @apply transition-all duration-200 cursor-pointer;
+  @apply flex items-center gap-1.5;
+}
+
+.prose .code-block-copy:hover {
+  @apply border-primary/50 text-primary;
+}
+
+.prose .code-block-copy.copied {
+  @apply bg-green-500/10 text-green-600 border-green-500/30;
+}
+
+.dark .prose .code-block-copy.copied {
+  @apply text-green-400;
+}
+
+.prose pre {
+  @apply p-4 rounded-lg overflow-x-auto my-0 text-sm leading-relaxed;
+}
+
+.prose .code-block pre {
+  @apply rounded-none m-0;
+}
+
+/* Shiki dual theme support */
+.dark pre.astro-code,
+.dark pre.astro-code span {
+  background-color: var(--shiki-dark-bg) !important;
+  color: var(--shiki-dark) !important;
+}
+
+pre.astro-code {
+  @apply p-4 rounded-xl overflow-x-auto my-6 text-sm leading-relaxed;
+  @apply border border-border shadow-sm;
+}
+
+.code-block pre.astro-code {
+  @apply rounded-none border-0 shadow-none my-0;
+}
+
+/* Custom scrollbar for code blocks */
+pre.astro-code::-webkit-scrollbar {
+  @apply h-2;
+}
+
+pre.astro-code::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+pre.astro-code::-webkit-scrollbar-thumb {
+  @apply bg-border rounded-full;
+}
+
+pre.astro-code::-webkit-scrollbar-thumb:hover {
+  @apply bg-muted-foreground/50;
+}
+
+/* Inline code */
+.prose code:not(pre code) {
+  @apply bg-muted px-1.5 py-0.5 rounded-md text-sm font-medium;
+  @apply border border-border/50;
+}
+
+/* ==================== Table Styles ==================== */
+.prose .table-wrapper {
+  @apply my-6 overflow-x-auto rounded-xl border border-border shadow-sm;
+}
+
+.prose table {
+  @apply w-full border-collapse text-sm;
+}
+
+.prose thead {
+  @apply bg-muted/60;
+}
+
+.prose th {
+  @apply px-4 py-3 text-left font-semibold text-foreground;
+  @apply border-b border-border;
+}
+
+.prose th:not(:last-child) {
+  @apply border-r border-border/30;
+}
+
+.prose tbody tr {
+  @apply transition-colors duration-150;
+}
+
+.prose tbody tr:hover {
+  @apply bg-muted/30;
+}
+
+.prose tbody tr:nth-child(even) {
+  @apply bg-muted/20;
+}
+
+.prose td {
+  @apply px-4 py-3 text-left;
+  @apply border-b border-border/50;
+}
+
+.prose td:not(:last-child) {
+  @apply border-r border-border/30;
+}
+
+.prose tbody tr:last-child td {
+  @apply border-b-0;
+}
+
+.prose img {
+  @apply rounded-lg my-4;
+}
+
+.prose hr {
+  @apply my-8 border-border;
+}
+
+/* ==================== Table of Contents Styles ==================== */
+.toc-container {
+  display: none;
+  position: fixed;
+  right: max(1rem, calc((100vw - 80rem) / 2 - 14rem));
+  top: 6rem;
+  width: 14rem;
+  max-height: calc(100vh - 8rem);
+  overflow-y: auto;
+  font-size: 0.875rem;
+}
+
+@media (min-width: 1280px) {
+  .toc-container {
+    display: block;
+  }
+}
+
+.toc-wrapper {
+  @apply p-4 rounded-lg;
+  @apply bg-card/50 backdrop-blur-sm;
+  @apply border border-border/50;
+  @apply shadow-sm;
+}
+
+.toc-title {
+  @apply flex items-center gap-2 font-semibold text-foreground mb-3 pb-2;
+  @apply border-b border-border/50;
+}
+
+.toc-list {
+  @apply space-y-1;
+}
+
+.toc-item {
+  @apply list-none;
+}
+
+.toc-depth-3 {
+  @apply pl-4;
+}
+
+.toc-link {
+  @apply block py-1.5 px-2 rounded;
+  @apply text-muted-foreground hover:text-foreground;
+  @apply hover:bg-muted/50;
+  @apply transition-all duration-200;
+  @apply border-l-2 border-transparent;
+  @apply line-clamp-2;
+}
+
+.toc-link.active {
+  @apply text-primary font-medium;
+  @apply bg-primary/5;
+  @apply border-l-2 border-primary;
+}
+
+/* TOC 滚动条样式 */
+.toc-container::-webkit-scrollbar {
+  width: 4px;
+}
+
+.toc-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.toc-container::-webkit-scrollbar-thumb {
+  @apply bg-muted-foreground/20 rounded-full;
+}
+
+.toc-container::-webkit-scrollbar-thumb:hover {
+  @apply bg-muted-foreground/40;
+}

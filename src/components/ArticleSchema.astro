@@ -1,0 +1,44 @@
+---
+import { SITE_TITLE } from "@/config/site.config";
+
+interface Props {
+  title: string;
+  description: string;
+  publishDate: Date;
+  modifiedDate?: Date;
+  author: string;
+  image?: string;
+}
+
+const { title, description, publishDate, modifiedDate, author, image } =
+  Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: title,
+  description: description,
+  image: image ? [new URL(image, Astro.site).href] : [],
+  datePublished: publishDate.toISOString(),
+  dateModified: (modifiedDate || publishDate).toISOString(),
+  author: [
+    {
+      "@type": "Person",
+      name: author,
+      url: Astro.site?.href,
+    },
+  ],
+  publisher: {
+    "@type": "Organization",
+    name: SITE_TITLE,
+    url: Astro.site?.href,
+  },
+  mainEntityOfPage: {
+    "@type": "WebPage",
+    "@id": canonicalURL.href,
+  },
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />
