@@ -9,6 +9,34 @@ jobs:
   update:
     runs-on: ubuntu-latest
     steps:
-      - uses: runsascoded/update-submodules@v1
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
+          submodules: true
           token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update submodule to latest main
+        run: |
+          cd content
+          git fetch origin
+          git checkout main
+          git pull origin main
+          cd ..
+
+      - name: Check for changes
+        id: check_changes
+        run: |
+          if git diff --quiet; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit and push if changed
+        if: steps.check_changes.outputs.changed == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add content
+          git commit -m "chore: update content submodule to latest main"
+          git push
