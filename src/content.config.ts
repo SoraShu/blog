@@ -14,6 +14,7 @@ const blog = defineCollection({
     draft: z.boolean().default(false),
     cover: z.string().optional(),
     author: z.string().optional(),
+    aiGenerated: z.enum(["translate", "write"]).optional(),
   }),
 });
 

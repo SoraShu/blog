@@ -12,6 +12,13 @@ import cloudflare from '@astrojs/cloudflare';
 export default defineConfig({
   site: process.env.SITE_URL || 'https://yourdomain.com',
   output: 'static',
+  i18n: {
+    defaultLocale: 'zh-CN',
+    locales: ['zh-CN', 'en'],
+    routing: {
+      prefixDefaultLocale: false,
+    },
+  },
   adapter: cloudflare({
     platformProxy: {
       enabled: true,
@@ -30,6 +37,13 @@ export default defineConfig({
       changefreq: 'weekly',
       priority: 0.7,
       lastmod: new Date(),
+      i18n: {
+        defaultLocale: 'zh-CN',
+        locales: {
+          'zh-CN': 'zh-CN',
+          'en': 'en',
+        },
+      },
     }),
   ],
   markdown: {

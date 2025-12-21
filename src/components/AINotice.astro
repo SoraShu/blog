@@ -1,0 +1,47 @@
+---
+/**
+ * AI 生成内容提示组件
+ * 用于提示读者文章由 AI 辅助创作或翻译
+ */
+import { t, type Locale } from "@/i18n";
+
+interface Props {
+  /** AI 使用类型 */
+  type: "translate" | "write";
+  /** 当前语言 */
+  locale: Locale;
+}
+
+const { type, locale } = Astro.props;
+
+const noticeText = t(`ai.notice.${type}` as any, locale);
+const disclaimer = t('ai.notice.disclaimer', locale);
+---
+
+<div class="bg-violet-50 dark:bg-violet-950/30 border border-violet-200 dark:border-violet-800 rounded-lg p-4 mb-6">
+  <div class="flex items-start gap-3 text-violet-800 dark:text-violet-200">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="mt-0.5 shrink-0"
+    >
+      <path d="M12 8V4H8"/>
+      <rect width="16" height="12" x="4" y="8" rx="2"/>
+      <path d="M2 14h2"/>
+      <path d="M20 14h2"/>
+      <path d="M15 13v2"/>
+      <path d="M9 13v2"/>
+    </svg>
+    <div class="space-y-1">
+      <p class="font-medium">{noticeText}</p>
+      <p class="text-sm text-violet-600 dark:text-violet-300">{disclaimer}</p>
+    </div>
+  </div>
+</div>

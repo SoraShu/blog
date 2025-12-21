@@ -1,6 +1,9 @@
 ---
 import { SITE_TITLE, SOCIAL_LINKS } from "@/config/site.config";
 import { Separator } from "@/components/ui/separator";
+import { getLocaleFromUrl, t } from "@/i18n";
+
+const locale = getLocaleFromUrl(Astro.url);
 ---
 
 <footer class="border-t">
@@ -96,7 +99,7 @@ import { Separator } from "@/components/ui/separator";
     <Separator className="my-4" />
 
     <p class="text-center text-sm text-muted-foreground">
-      © {new Date().getFullYear()} {SITE_TITLE}. All rights reserved.
+      © {new Date().getFullYear()} {SITE_TITLE}. {t('footer.rights', locale)}.
     </p>
   </div>
 </footer>

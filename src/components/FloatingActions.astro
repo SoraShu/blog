@@ -3,14 +3,22 @@
  * 浮动操作按钮组件
  * 显示在博文页面右下角，提供返回顶部和返回主页功能
  */
+import { t, type Locale } from "@/i18n";
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = 'zh-CN' } = Astro.props;
+const homePath = locale === 'en' ? '/en' : '/';
 ---
 
 <div class="floating-actions">
   <button
     id="back-to-top"
     class="floating-btn inline-flex items-center justify-center size-10 rounded-full border bg-background shadow-md hover:bg-accent hover:text-accent-foreground transition-all"
-    aria-label="返回顶部"
-    title="返回顶部"
+    aria-label={t('post.backToTop', locale)}
+    title={t('post.backToTop', locale)}
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -28,10 +36,10 @@
   </button>
   
   <a
-    href="/"
+    href={homePath}
     class="inline-flex items-center justify-center size-10 rounded-full border bg-background shadow-md hover:bg-accent hover:text-accent-foreground transition-all"
-    aria-label="返回主页"
-    title="返回主页"
+    aria-label={t('post.backToHome', locale)}
+    title={t('post.backToHome', locale)}
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"

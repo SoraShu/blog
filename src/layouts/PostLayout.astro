@@ -6,9 +6,11 @@ import CodeBlockEnhancer from "@/components/CodeBlockEnhancer.astro";
 import TableOfContents from "@/components/TableOfContents.astro";
 import PostCopyright from "@/components/PostCopyright.astro";
 import FloatingActions from "@/components/FloatingActions.astro";
+import AINotice from "@/components/AINotice.astro";
 import { Badge } from "@/components/ui/badge";
 import { formatDate } from "@/lib/utils";
 import { SITE_AUTHOR } from "@/config/site.config";
+import { t, type Locale } from "@/i18n";
 
 interface Props {
   frontmatter: {
@@ -19,11 +21,13 @@ interface Props {
     tags?: string[];
     author?: string;
     cover?: string;
+    aiGenerated?: "translate" | "write";
   };
   headings: MarkdownHeading[];
+  locale?: Locale;
 }
 
-const { frontmatter, headings = [] } = Astro.props;
+const { frontmatter, headings = [], locale = 'zh-CN' } = Astro.props;
 const {
   title,
   description,
@@ -32,13 +36,17 @@ const {
   tags = [],
   author = SITE_AUTHOR,
   cover,
+  aiGenerated,
 } = frontmatter;
+
+const tagsBasePath = locale === 'en' ? '/en/tags' : '/tags';
 ---
 
 <BaseLayout
   title={title}
   description={description}
   image={cover}
+  locale={locale}
   article={{
     publishedTime: pubDate.toISOString(),
     modifiedTime: updatedDate?.toISOString(),
@@ -65,7 +73,7 @@ const {
         {
           updatedDate && (
             <span>
-              (更新于 {formatDate(updatedDate)})
+              ({t('post.updatedOn', locale)} {formatDate(updatedDate)})
             </span>
           )
         }
@@ -75,7 +83,7 @@ const {
         tags.length > 0 && (
           <div class="flex flex-wrap gap-2 mt-4">
             {tags.map((tag) => (
-              <a href={`/tags/${tag}`}>
+              <a href={`${tagsBasePath}/${tag}`}>
                 <Badge variant="secondary">{tag}</Badge>
               </a>
             ))}
@@ -86,15 +94,17 @@ const {
 
     {cover && <img src={cover} alt={title} class="w-full rounded-lg mb-8" />}
 
+    {aiGenerated && <AINotice type={aiGenerated} locale={locale} />}
+
     <div class="prose">
       <slot />
     </div>
     
-    <CodeBlockEnhancer />
+    <CodeBlockEnhancer locale={locale} />
     
-    <PostCopyright title={title} author={author} pubDate={pubDate} />
+    <PostCopyright title={title} author={author} pubDate={pubDate} locale={locale} />
   </article>
   
-  <TableOfContents headings={headings} />
-  <FloatingActions />
+  <TableOfContents headings={headings} locale={locale} />
+  <FloatingActions locale={locale} />
 </BaseLayout>

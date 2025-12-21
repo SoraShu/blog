@@ -5,14 +5,16 @@
  */
 import { SITE_AUTHOR, SITE_URL } from "@/config/site.config";
 import { Separator } from "@/components/ui/separator";
+import { t, type Locale } from "@/i18n";
 
 interface Props {
   title: string;
   author?: string;
   pubDate: Date;
+  locale?: Locale;
 }
 
-const { title, author = SITE_AUTHOR, pubDate } = Astro.props;
+const { title, author = SITE_AUTHOR, pubDate, locale = 'zh-CN' } = Astro.props;
 const postUrl = new URL(Astro.url.pathname, SITE_URL).href;
 const year = pubDate.getFullYear();
 ---
@@ -20,21 +22,21 @@ const year = pubDate.getFullYear();
 <Separator className="my-8" />
 
 <aside class="bg-muted/50 rounded-lg p-6 text-sm">
-  <h4 class="font-semibold mb-3 text-base">📜 版权声明 Copyright Notice</h4>
+  <h4 class="font-semibold mb-3 text-base">{t('copyright.title', locale)}</h4>
   
   <dl class="space-y-2 text-muted-foreground">
     <div class="flex flex-wrap gap-x-2">
-      <dt class="font-medium text-foreground">文章标题 Title:</dt>
+      <dt class="font-medium text-foreground">{t('copyright.postTitle', locale)}</dt>
       <dd>{title}</dd>
     </div>
     
     <div class="flex flex-wrap gap-x-2">
-      <dt class="font-medium text-foreground">文章作者 Author:</dt>
+      <dt class="font-medium text-foreground">{t('copyright.postAuthor', locale)}</dt>
       <dd>{author}</dd>
     </div>
     
     <div class="flex flex-wrap gap-x-2">
-      <dt class="font-medium text-foreground">文章链接 Link:</dt>
+      <dt class="font-medium text-foreground">{t('copyright.postLink', locale)}</dt>
       <dd>
         <a href={postUrl} class="text-primary hover:underline break-all">
           {postUrl}
@@ -43,23 +45,40 @@ const year = pubDate.getFullYear();
     </div>
     
     <div class="flex flex-wrap gap-x-2">
-      <dt class="font-medium text-foreground">版权声明 License:</dt>
+      <dt class="font-medium text-foreground">{t('copyright.license', locale)}</dt>
       <dd>
-        本文采用 
-        <a 
-          href="https://creativecommons.org/licenses/by-nc-sa/4.0/" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          class="text-primary hover:underline"
-        >
-          CC BY-NC-SA 4.0
-        </a> 
-        许可协议。转载请注明出处。
+        {locale === 'zh-CN' ? (
+          <>
+            本文采用 
+            <a 
+              href="https://creativecommons.org/licenses/by-nc-sa/4.0/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="text-primary hover:underline"
+            >
+              CC BY-NC-SA 4.0
+            </a> 
+            许可协议。转载请注明出处。
+          </>
+        ) : (
+          <>
+            This article is licensed under 
+            <a 
+              href="https://creativecommons.org/licenses/by-nc-sa/4.0/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="text-primary hover:underline"
+            >
+              {' '}CC BY-NC-SA 4.0
+            </a>. 
+            Please credit the source when reprinting.
+          </>
+        )}
       </dd>
     </div>
   </dl>
   
   <p class="mt-4 text-xs text-muted-foreground/70">
-    © {year} {author}. Some rights reserved.
+    © {year} {author}. {t('footer.rights', locale)}.
   </p>
 </aside>

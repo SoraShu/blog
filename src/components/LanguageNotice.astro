@@ -1,0 +1,84 @@
+---
+/**
+ * 语言版本提示组件
+ * 用于博文页面提示用户是否存在另一语言版本
+ * 如果博文只有一个语言版本且用户正在查看该语言，则不显示
+ */
+import { t, type Locale } from "@/i18n";
+
+interface Props {
+  /** 当前语言 */
+  locale: Locale;
+  /** 是否存在另一语言版本 */
+  hasAlternate: boolean;
+  /** 另一语言版本的链接（如果存在） */
+  alternateUrl?: string;
+  /** 另一语言 */
+  alternateLocale: Locale;
+  /** 是否正在显示回退内容（当前语言版本不存在，显示另一语言的内容） */
+  showingFallback?: boolean;
+}
+
+const { locale, hasAlternate, alternateUrl, alternateLocale, showingFallback = false } = Astro.props;
+
+const alternateLangName = t(`lang.name.${alternateLocale}` as any, locale);
+const currentLangName = t(`lang.name.${locale}` as any, locale);
+
+// 如果有另一语言版本，或者正在显示回退内容，才显示提示
+const shouldShow = hasAlternate || showingFallback;
+---
+
+{shouldShow && hasAlternate ? (
+  <div class="bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-6">
+    <div class="flex items-center gap-2 text-blue-800 dark:text-blue-200">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <circle cx="12" cy="12" r="10"></circle>
+        <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+        <path d="M2 12h20"></path>
+      </svg>
+      <span>
+        {t('lang.notice.hasOther', locale, { lang: alternateLangName })}
+        {': '}
+        <a
+          href={alternateUrl}
+          class="font-medium underline underline-offset-4 hover:text-blue-600 dark:hover:text-blue-300"
+        >
+          {alternateLangName} ->
+        </a>
+      </span>
+    </div>
+  </div>
+) : shouldShow && showingFallback ? (
+  <div class="bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg p-4 mb-6">
+    <div class="flex items-center gap-2 text-amber-800 dark:text-amber-200">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
+        <path d="M12 9v4"></path>
+        <path d="M12 17h.01"></path>
+      </svg>
+      <span>
+        {t('lang.notice.noOther', locale, { lang: currentLangName })}
+      </span>
+    </div>
+  </div>
+) : null}

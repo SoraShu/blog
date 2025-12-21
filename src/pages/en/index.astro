@@ -5,23 +5,26 @@ import { getCollection } from "astro:content";
 import { SITE_TITLE, SITE_DESCRIPTION } from "@/config/site.config";
 import { t, parsePostId } from "@/i18n";
 
-const locale = 'zh-CN';
+const locale = 'en';
 
 // 获取所有非草稿博文
 const allPosts = await getCollection("blog", ({ data }) => !data.draft);
 
-// 为每个 baseId 选择合适的版本：优先中文，没有则用英文
-const postsByBaseId = new Map<string, (typeof allPosts)[0]>();
+// 创建博文 ID 映射（基础 ID -> 最佳版本）
+const postMap = new Map<string, typeof allPosts[0]>();
 allPosts.forEach((post) => {
   const { baseId, locale: postLocale } = parsePostId(post.id);
-  const existing = postsByBaseId.get(baseId);
-  // 如果还没有这个 baseId 的博文，或者当前是中文版本（优先），则更新
-  if (!existing || postLocale === 'zh-CN') {
-    postsByBaseId.set(baseId, post);
+  const existing = postMap.get(baseId);
+  
+  // 优先显示英文版本，如果没有则显示中文版本
+  if (!existing) {
+    postMap.set(baseId, post);
+  } else if (postLocale === 'en') {
+    postMap.set(baseId, post);
   }
 });
 
-const posts = Array.from(postsByBaseId.values())
+const posts = Array.from(postMap.values())
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 6);
 ---
@@ -37,7 +40,7 @@ const posts = Array.from(postsByBaseId.values())
       <div class="flex items-center justify-between mb-6">
         <h2 class="text-2xl font-semibold">{t('home.latestPosts', locale)}</h2>
         <a
-          href="/archive"
+          href="/en/archive"
           class="text-primary hover:underline underline-offset-4"
         >
           {t('home.viewAll', locale)}
@@ -47,14 +50,16 @@ const posts = Array.from(postsByBaseId.values())
       <div class="grid gap-6 md:grid-cols-2">
         {
           posts.map((post) => {
-            const { baseId } = parsePostId(post.id);
+            const { baseId, locale: postLocale } = parsePostId(post.id);
+            // 如果是英文版本，使用 baseId；如果是中文版本，保持原 ID
+            const href = postLocale === 'en' ? `/en/posts/${baseId}` : `/en/posts/${post.id}`;
             return (
               <PostCard
                 title={post.data.title}
                 description={post.data.description}
                 pubDate={post.data.pubDate}
                 tags={post.data.tags}
-                href={`/posts/${baseId}`}
+                href={href}
               />
             );
           })

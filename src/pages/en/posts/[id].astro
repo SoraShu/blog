@@ -4,13 +4,12 @@ import PostLayout from "@/layouts/PostLayout.astro";
 import LanguageNotice from "@/components/LanguageNotice.astro";
 import { parsePostId, getAlternatePostId } from "@/i18n";
 
-const locale = 'zh-CN';
+const locale = 'en';
 
 export async function getStaticPaths() {
   const allPosts = await getCollection("blog", ({ data }) => !data.draft);
   
-  // 为每个 baseId 生成一个中文路由
-  // 如果有中文版本，使用中文版本；如果没有，显示英文版本作为回退
+  // 为每个基础 ID 生成路径
   const baseIds = new Set<string>();
   allPosts.forEach((post) => {
     const { baseId } = parsePostId(post.id);
@@ -25,22 +24,23 @@ export async function getStaticPaths() {
 
 const { baseId, allPosts } = Astro.props;
 
-// 查找中文版本和英文版本
-const zhPostId = baseId;
+// 查找英文版本和中文版本
 const enPostId = `${baseId}_en`;
+const zhPostId = baseId;
 
-const zhPost = allPosts.find((p: any) => p.id === zhPostId);
 const enPost = allPosts.find((p: any) => p.id === enPostId);
+const zhPost = allPosts.find((p: any) => p.id === zhPostId);
 
-// 优先显示中文版本，如果没有则显示英文版本
-const post = zhPost || enPost;
+// 优先显示英文版本，如果没有则显示中文版本
+const post = enPost || zhPost;
 const hasAlternate = !!zhPost && !!enPost;
-const showingOriginal = !zhPost && !!enPost;
+const showingOriginal = !enPost && !!zhPost;
 
+// 确定要显示的内容
 const displayPost = post!;
-const alternateUrl = `/en/posts/${baseId}`;
+const alternateUrl = `/posts/${zhPostId}`;
 
-const { Content, headings } = await render(post!);
+const { Content, headings } = await render(displayPost);
 ---
 
 <PostLayout frontmatter={displayPost.data} headings={headings} locale={locale}>
@@ -49,7 +49,7 @@ const { Content, headings } = await render(post!);
       locale={locale}
       hasAlternate={hasAlternate}
       alternateUrl={alternateUrl}
-      alternateLocale="en"
+      alternateLocale="zh-CN"
       showingFallback={showingOriginal}
     />
   )}

@@ -5,22 +5,25 @@ import { getCollection } from "astro:content";
 import { formatDateShort } from "@/lib/utils";
 import { t, parsePostId } from "@/i18n";
 
-const locale = 'zh-CN';
+const locale = 'en';
 
 // 获取所有非草稿博文
 const allPosts = await getCollection("blog", ({ data }) => !data.draft);
 
-// 为每个 baseId 选择合适的版本：优先中文，没有则用英文
-const postsByBaseId = new Map<string, (typeof allPosts)[0]>();
+// 创建博文 ID 映射（基础 ID -> 最佳版本）- 优先英文
+const postMap = new Map<string, typeof allPosts[0]>();
 allPosts.forEach((post) => {
   const { baseId, locale: postLocale } = parsePostId(post.id);
-  const existing = postsByBaseId.get(baseId);
-  if (!existing || postLocale === 'zh-CN') {
-    postsByBaseId.set(baseId, post);
+  const existing = postMap.get(baseId);
+  
+  if (!existing) {
+    postMap.set(baseId, post);
+  } else if (postLocale === 'en') {
+    postMap.set(baseId, post);
   }
 });
 
-const posts = Array.from(postsByBaseId.values())
+const posts = Array.from(postMap.values())
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 // Group posts by year
@@ -61,7 +64,8 @@ const years = Object.keys(postsByYear)
 
             <ul class="space-y-4">
               {postsByYear[year].map((post) => {
-                const { baseId } = parsePostId(post.id);
+                const { baseId, locale: postLocale } = parsePostId(post.id);
+                const href = postLocale === 'en' ? `/en/posts/${baseId}` : `/en/posts/${post.id}`;
                 return (
                   <li class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 group">
                     <time
@@ -71,7 +75,7 @@ const years = Object.keys(postsByYear)
                       {formatDateShort(post.data.pubDate)}
                     </time>
                     <a
-                      href={`/posts/${baseId}`}
+                      href={href}
                       class="font-medium hover:text-primary transition-colors group-hover:underline underline-offset-4"
                     >
                       {post.data.title}
