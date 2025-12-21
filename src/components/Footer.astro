@@ -11,8 +11,11 @@ const locale = getLocaleFromUrl(Astro.url);
     <div class="flex flex-col md:flex-row justify-between items-center gap-4">
       <div class="text-center md:text-left">
         <p class="font-semibold">{SITE_TITLE}</p>
-        <p class="text-sm text-muted-foreground">
-          Built with <a href="https://astro.build" target="_blank" rel="noopener noreferrer" class="hover:text-foreground transition-colors">Astro</a> & <a href="https://ui.shadcn.com" target="_blank" rel="noopener noreferrer" class="hover:text-foreground transition-colors">shadcn/ui</a>
+        <p class="text-sm text-muted-foreground" set:html={t('footer.builtWith', locale, {
+            astro: `<a href="https://astro.build" target="_blank" rel="noopener noreferrer" class="hover:text-foreground transition-colors">Astro</a>`,
+            shadcn: `<a href="https://ui.shadcn.com" target="_blank" rel="noopener noreferrer" class="hover:text-foreground transition-colors">shadcn/ui</a>`,
+          })}>
+          <!-- Built with <a href="https://astro.build" target="_blank" rel="noopener noreferrer" class="hover:text-foreground transition-colors">Astro</a> & <a href="https://ui.shadcn.com" target="_blank" rel="noopener noreferrer" class="hover:text-foreground transition-colors">shadcn/ui</a> -->
         </p>
       </div>
 

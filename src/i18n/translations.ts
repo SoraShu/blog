@@ -26,7 +26,7 @@ export const translations = {
 
     // 首页
     'home.latestPosts': '最新文章',
-    'home.viewAll': '查看全部 →',
+    'home.viewAll': '查看全部 ->',
 
     // 归档页
     'archive.postsCount': '共 {count} 篇文章',
@@ -34,7 +34,7 @@ export const translations = {
     // 标签页
     'tags.tagsCount': '共 {count} 个标签',
     'tags.postsCount': '共 {count} 篇文章',
-    'tags.backToTags': '← 返回标签列表',
+    'tags.backToTags': '<- 返回标签列表',
     'tags.tagPrefix': '标签:',
 
     // 友链页
@@ -58,10 +58,11 @@ export const translations = {
     'copyright.postLink': '文章链接:',
     'copyright.license': '版权声明:',
     'copyright.licenseText': '本文采用 {license} 许可协议。转载请注明出处。',
+    'copyright.rightsReserved': '保留部分权利',
 
     // 页脚
     'footer.builtWith': '使用 {astro} 和 {shadcn} 构建',
-    'footer.rights': '保留部分权利',
+    'footer.rights': '保留所有权利',
 
     // 语言切换提示
     // 'lang.notice.hasOther': '本文有 {lang} 版本',
@@ -101,7 +102,7 @@ export const translations = {
 
     // Home page
     'home.latestPosts': 'Latest Posts',
-    'home.viewAll': 'View all →',
+    'home.viewAll': 'View all ->',
 
     // Archive page
     'archive.postsCount': '{count} posts in total',
@@ -109,7 +110,7 @@ export const translations = {
     // Tags page
     'tags.tagsCount': '{count} tags in total',
     'tags.postsCount': '{count} posts',
-    'tags.backToTags': '← Back to tags',
+    'tags.backToTags': '<- Back to tags',
     'tags.tagPrefix': 'Tag:',
 
     // Friends page
@@ -133,10 +134,11 @@ export const translations = {
     'copyright.postLink': 'Link:',
     'copyright.license': 'License:',
     'copyright.licenseText': 'This article is licensed under {license}. Please credit the source when reprinting.',
+    'copyright.rightsReserved': 'Some rights reserved',
 
     // Footer
     'footer.builtWith': 'Built with {astro} & {shadcn}',
-    'footer.rights': 'Some rights reserved',
+    'footer.rights': 'All rights reserved',
 
     // Language switch notice
     // 'lang.notice.hasOther': 'This post is also available in {lang}',

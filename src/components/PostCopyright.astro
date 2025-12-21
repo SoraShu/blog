@@ -17,6 +17,8 @@ interface Props {
 const { title, author = SITE_AUTHOR, pubDate, locale = 'zh-CN' } = Astro.props;
 const postUrl = new URL(Astro.url.pathname, SITE_URL).href;
 const year = pubDate.getFullYear();
+const currentYear = new Date().getFullYear();
+const yearDisplay = year === currentYear ? `${year}` : `${year}-${currentYear}`;
 ---
 
 <Separator className="my-8" />
@@ -24,7 +26,7 @@ const year = pubDate.getFullYear();
 <aside class="bg-muted/50 rounded-lg p-6 text-sm">
   <h4 class="font-semibold mb-3 text-base">{t('copyright.title', locale)}</h4>
   
-  <dl class="space-y-2 text-muted-foreground">
+  <dl class="space-y-2 text-muted-primary">
     <div class="flex flex-wrap gap-x-2">
       <dt class="font-medium text-foreground">{t('copyright.postTitle', locale)}</dt>
       <dd>{title}</dd>
@@ -38,7 +40,7 @@ const year = pubDate.getFullYear();
     <div class="flex flex-wrap gap-x-2">
       <dt class="font-medium text-foreground">{t('copyright.postLink', locale)}</dt>
       <dd>
-        <a href={postUrl} class="text-primary hover:underline break-all">
+        <a href={postUrl} class="hover:underline break-all">
           {postUrl}
         </a>
       </dd>
@@ -47,38 +49,21 @@ const year = pubDate.getFullYear();
     <div class="flex flex-wrap gap-x-2">
       <dt class="font-medium text-foreground">{t('copyright.license', locale)}</dt>
       <dd>
-        {locale === 'zh-CN' ? (
-          <>
-            本文采用 
-            <a 
-              href="https://creativecommons.org/licenses/by-nc-sa/4.0/" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              class="text-primary hover:underline"
-            >
-              CC BY-NC-SA 4.0
-            </a> 
-            许可协议。转载请注明出处。
-          </>
-        ) : (
-          <>
-            This article is licensed under 
-            <a 
-              href="https://creativecommons.org/licenses/by-nc-sa/4.0/" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              class="text-primary hover:underline"
-            >
-              {' '}CC BY-NC-SA 4.0
-            </a>. 
-            Please credit the source when reprinting.
-          </>
-        )}
+        <p
+          set:html={t('copyright.licenseText', locale, {
+            license: `<a 
+                        href="https://creativecommons.org/licenses/by-nc-sa/4.0/" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        class="hover:underline"
+                      >
+                        CC BY-NC-SA 4.0</a>`,
+          })}></p>
       </dd>
     </div>
   </dl>
   
   <p class="mt-4 text-xs text-muted-foreground/70">
-    © {year} {author}. {t('footer.rights', locale)}.
+    © {yearDisplay} {author}. {t('copyright.rightsReserved', locale)}.
   </p>
 </aside>
