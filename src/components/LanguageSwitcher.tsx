@@ -40,9 +40,9 @@ export function LanguageSwitcher({ currentLocale, currentPath }: LanguageSwitche
   };
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-1.5 shrink-0">
       <span
-        className={`text-sm font-medium transition-colors ${
+        className={`text-sm font-medium transition-colors whitespace-nowrap ${
           !isEnglish ? "text-foreground" : "text-muted-foreground"
         }`}
       >
@@ -54,7 +54,7 @@ export function LanguageSwitcher({ currentLocale, currentPath }: LanguageSwitche
         aria-label="切换语言 / Switch language"
       />
       <span
-        className={`text-sm font-medium transition-colors ${
+        className={`text-sm font-medium transition-colors whitespace-nowrap ${
           isEnglish ? "text-foreground" : "text-muted-foreground"
         }`}
       >

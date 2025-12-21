@@ -15,8 +15,8 @@ const currentPath = Astro.url.pathname;
 <header class="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
   <div class="container mx-auto px-4">
     <div class="flex h-14 items-center justify-between">
-      <div class="flex items-center gap-2">
-        <a href={homePath} class="font-bold text-xl hover:text-primary transition-colors">
+      <div class="flex items-center gap-2 shrink-0">
+        <a href={homePath} class="font-bold text-lg sm:text-xl hover:text-primary transition-colors whitespace-nowrap">
           {SITE_TITLE}
         </a>
         <a
