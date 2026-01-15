@@ -12,6 +12,9 @@ import cloudflare from '@astrojs/cloudflare';
 export default defineConfig({
   site: process.env.SITE_URL || 'https://yourdomain.com',
   output: 'static',
+  build: {
+    format: 'file',
+  },
   i18n: {
     defaultLocale: 'zh-CN',
     locales: ['zh-CN', 'en'],
