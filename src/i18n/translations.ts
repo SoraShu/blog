@@ -23,6 +23,9 @@ export const translations = {
     'page.friends.description': '友情链接',
     'page.about.title': '关于',
     'page.about.description': '关于我和这个博客',
+    'page.404.title': '页面未找到',
+    'page.404.description': '抱歉，您访问的页面不存在或已被移动。',
+    'page.404.backHome': '返回首页',
 
     // 首页
     'home.latestPosts': '最新文章',
@@ -99,6 +102,9 @@ export const translations = {
     'page.friends.description': 'Friend links',
     'page.about.title': 'About',
     'page.about.description': 'About me and this blog',
+    'page.404.title': 'Page Not Found',
+    'page.404.description': 'Sorry, the page you are looking for doesn\'t exist or has been moved.',
+    'page.404.backHome': 'Back to home',
 
     // Home page
     'home.latestPosts': 'Latest Posts',
