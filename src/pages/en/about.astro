@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { Card, CardContent } from "@/components/ui/card";
+import { GiscusComments } from "@/components/GiscusComments";
 import { CONTENT_ABOUT_PATH } from "@/config/site.config";
 import { t, getContentPath } from "@/i18n";
 import fs from "node:fs";
@@ -41,5 +42,7 @@ const htmlContent = md.render(contentWithoutFrontmatter);
         <Fragment set:html={htmlContent} />
       </CardContent>
     </Card>
+
+    <GiscusComments client:load locale={locale} />
   </div>
 </BaseLayout>

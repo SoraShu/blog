@@ -63,6 +63,9 @@ export const translations = {
     'copyright.licenseText': '本文采用 {license} 许可协议。转载请注明出处。',
     'copyright.rightsReserved': '保留部分权利',
 
+    // 评论
+    'comments.title': '评论',
+
     // 页脚
     'footer.builtWith': '使用 {astro} 和 {shadcn} 构建',
     'footer.rights': '保留所有权利',
@@ -141,6 +144,9 @@ export const translations = {
     'copyright.license': 'License:',
     'copyright.licenseText': 'This article is licensed under {license}. Please credit the source when reprinting.',
     'copyright.rightsReserved': 'Some rights reserved',
+
+    // Comments
+    'comments.title': 'Comments',
 
     // Footer
     'footer.builtWith': 'Built with {astro} & {shadcn}',

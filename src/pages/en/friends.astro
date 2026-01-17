@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { FriendCard } from "@/components/FriendCard";
+import { GiscusComments } from "@/components/GiscusComments";
 import { getCollection } from "astro:content";
 import { t, getContentPath } from "@/i18n";
 import fs from "node:fs";
@@ -57,5 +58,7 @@ const htmlContent = md.render(contentWithoutFrontmatter);
     <div class="mt-12 p-6 bg-muted rounded-lg prose dark:prose-invert max-w-none">
       <Fragment set:html={htmlContent} />
     </div>
+
+    <GiscusComments client:load locale={locale} />
   </div>
 </BaseLayout>

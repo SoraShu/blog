@@ -5,6 +5,7 @@ import ArticleSchema from "@/components/ArticleSchema.astro";
 import CodeBlockEnhancer from "@/components/CodeBlockEnhancer.astro";
 import TableOfContents from "@/components/TableOfContents.astro";
 import PostCopyright from "@/components/PostCopyright.astro";
+import { GiscusComments } from "@/components/GiscusComments";
 import FloatingActions from "@/components/FloatingActions.astro";
 import AINotice from "@/components/AINotice.astro";
 import { Badge } from "@/components/ui/badge";
@@ -103,6 +104,8 @@ const tagsBasePath = locale === 'en' ? '/en/tags' : '/tags';
     <CodeBlockEnhancer locale={locale} />
     
     <PostCopyright title={title} author={author} pubDate={pubDate} locale={locale} />
+
+    <GiscusComments client:load locale={locale} />
   </article>
   
   <TableOfContents headings={headings} locale={locale} />

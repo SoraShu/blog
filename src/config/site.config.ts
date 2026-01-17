@@ -84,6 +84,24 @@ export const THEME_CONFIG = {
 };
 
 // ============================================================
+// 评论系统配置（giscus）
+// ============================================================
+
+export const GISCUS_CONFIG = {
+  repo: import.meta.env.PUBLIC_GISCUS_REPO || "",
+  repoId: import.meta.env.PUBLIC_GISCUS_REPO_ID || "",
+  category: import.meta.env.PUBLIC_GISCUS_CATEGORY || "",
+  categoryId: import.meta.env.PUBLIC_GISCUS_CATEGORY_ID || "",
+  mapping: import.meta.env.PUBLIC_GISCUS_MAPPING || "title",
+  strict: import.meta.env.PUBLIC_GISCUS_STRICT || "0",
+  reactionsEnabled: import.meta.env.PUBLIC_GISCUS_REACTIONS_ENABLED || "1",
+  emitMetadata: import.meta.env.PUBLIC_GISCUS_EMIT_METADATA || "0",
+  inputPosition: import.meta.env.PUBLIC_GISCUS_INPUT_POSITION || "top",
+  theme: import.meta.env.PUBLIC_GISCUS_THEME || "preferred_color_scheme",
+  loading: import.meta.env.PUBLIC_GISCUS_LOADING || "lazy",
+} as const;
+
+// ============================================================
 // 统一导出对象（便于一次性导入）
 // ============================================================
 
@@ -102,6 +120,9 @@ export const siteConfig = {
     aboutPath: CONTENT_ABOUT_PATH,
   },
   theme: THEME_CONFIG,
+  comments: {
+    giscus: GISCUS_CONFIG,
+  },
 } as const;
 
 export default siteConfig;
