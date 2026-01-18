@@ -13,7 +13,7 @@ export default defineConfig({
   site: process.env.SITE_URL || 'https://yourdomain.com',
   output: 'static',
   build: {
-    format: 'file',
+    format: 'preserve',
   },
   i18n: {
     defaultLocale: 'zh-CN',
