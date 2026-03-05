@@ -50,9 +50,8 @@ const posts = Array.from(postMap.values())
       <div class="grid gap-6 md:grid-cols-2">
         {
           posts.map((post) => {
-            const { baseId, locale: postLocale } = parsePostId(post.id);
-            // 如果是英文版本，使用 baseId；如果是中文版本，保持原 ID
-            const href = postLocale === 'en' ? `/en/posts/${baseId}` : `/en/posts/${post.id}`;
+            const { baseId } = parsePostId(post.id);
+            const href = `/en/posts/${baseId}`;
             return (
               <PostCard
                 title={post.data.title}

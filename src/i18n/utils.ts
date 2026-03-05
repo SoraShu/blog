@@ -130,16 +130,19 @@ export function getContentPath(basePath: string, locale: Locale): string {
  * 博文 ID 格式：
  * - 'hello-world' → 中文版本
  * - 'hello-world_en' → 英文版本
+ * - '2024/08/hello-world' → 中文版本
+ * - '2024/08/hello-world_en' → 英文版本
  */
 export function parsePostId(id: string): { baseId: string; locale: Locale } {
-  if (id.endsWith('_en')) {
+  const fileId = id.split('/').filter(Boolean).pop() ?? id;
+  if (fileId.endsWith('_en')) {
     return {
-      baseId: id.slice(0, -3),
+      baseId: fileId.slice(0, -3),
       locale: 'en',
     };
   }
   return {
-    baseId: id,
+    baseId: fileId,
     locale: 'zh-CN',
   };
 }

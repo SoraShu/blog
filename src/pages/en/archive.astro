@@ -64,8 +64,8 @@ const years = Object.keys(postsByYear)
 
             <ul class="space-y-4">
               {postsByYear[year].map((post) => {
-                const { baseId, locale: postLocale } = parsePostId(post.id);
-                const href = postLocale === 'en' ? `/en/posts/${baseId}` : `/en/posts/${post.id}`;
+                const { baseId } = parsePostId(post.id);
+                const href = `/en/posts/${baseId}`;
                 return (
                   <li class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 group">
                     <time

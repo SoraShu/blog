@@ -74,8 +74,8 @@ const { tag, posts } = Astro.props;
     <div class="grid gap-6 md:grid-cols-2">
       {
         posts.map((post) => {
-          const { baseId, locale: postLocale } = parsePostId(post.id);
-          const href = postLocale === 'en' ? `/en/posts/${baseId}` : `/en/posts/${post.id}`;
+          const { baseId } = parsePostId(post.id);
+          const href = `/en/posts/${baseId}`;
           return (
             <PostCard
               title={post.data.title}

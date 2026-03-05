@@ -2,7 +2,7 @@
 import { getCollection, render } from "astro:content";
 import PostLayout from "@/layouts/PostLayout.astro";
 import LanguageNotice from "@/components/LanguageNotice.astro";
-import { parsePostId, getAlternatePostId } from "@/i18n";
+import { parsePostId } from "@/i18n";
 
 const locale = 'zh-CN';
 
@@ -26,11 +26,14 @@ export async function getStaticPaths() {
 const { baseId, allPosts } = Astro.props;
 
 // 查找中文版本和英文版本
-const zhPostId = baseId;
-const enPostId = `${baseId}_en`;
-
-const zhPost = allPosts.find((p: any) => p.id === zhPostId);
-const enPost = allPosts.find((p: any) => p.id === enPostId);
+const zhPost = allPosts.find((post: any) => {
+  const { baseId: postBaseId, locale: postLocale } = parsePostId(post.id);
+  return postBaseId === baseId && postLocale === 'zh-CN';
+});
+const enPost = allPosts.find((post: any) => {
+  const { baseId: postBaseId, locale: postLocale } = parsePostId(post.id);
+  return postBaseId === baseId && postLocale === 'en';
+});
 
 // 优先显示中文版本，如果没有则显示英文版本
 const post = zhPost || enPost;

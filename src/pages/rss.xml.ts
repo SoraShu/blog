@@ -27,16 +27,19 @@ export async function GET(context: APIContext) {
           new Date(b.data.pubDate).valueOf() -
           new Date(a.data.pubDate).valueOf()
       )
-      .map((post) => ({
-        title: post.data.title,
-        pubDate: post.data.pubDate,
-        description: post.data.description,
-        link: `/posts/${post.id}/`,
-        content: sanitizeHtml(parser.render(post.body || ""), {
-          allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
-        }),
-        author: post.data.author,
-      })),
+      .map((post) => {
+        const { baseId } = parsePostId(post.id);
+        return {
+          title: post.data.title,
+          pubDate: post.data.pubDate,
+          description: post.data.description,
+          link: `/posts/${baseId}/`,
+          content: sanitizeHtml(parser.render(post.body || ""), {
+            allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
+          }),
+          author: post.data.author,
+        };
+      }),
     customData: `<language>${SITE_LANGUAGE}</language>`,
   });
 }

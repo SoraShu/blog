@@ -37,8 +37,8 @@ export async function GET(context: APIContext) {
           new Date(a.data.pubDate).valueOf()
       )
       .map((post) => {
-        const { baseId, locale: postLocale } = parsePostId(post.id);
-        const link = postLocale === 'en' ? `/en/posts/${baseId}/` : `/en/posts/${post.id}/`;
+        const { baseId } = parsePostId(post.id);
+        const link = `/en/posts/${baseId}/`;
         return {
           title: post.data.title,
           pubDate: post.data.pubDate,
